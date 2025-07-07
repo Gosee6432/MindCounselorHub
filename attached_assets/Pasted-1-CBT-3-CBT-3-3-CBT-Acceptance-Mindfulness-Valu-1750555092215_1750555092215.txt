@@ -1,0 +1,133 @@
+1. CBT 3세대 기법이란?
+
+CBT 3세대(‘제3물결’ CBT)는 전통적 인지‑행동치료에서 발전하여 수용(Acceptance), 마음챙김(Mindfulness), 가치(Value) 기반 행동변화를 강조하는 접근을 포괄한다. ACT, MBCT, DBT, CFT, MCT 등이 대표적이며, 치료자는 증상 내용보다는 경험과 행동을 조절하는 ‘과정(process)’에 초점을 맞춘다. 이러한 과정 중심 시각은 치료를 보다 유연하고 개인화할 수 있게 한다. (pubmed.ncbi.nlm.nih.gov)
+
+2. 최신 연구 동향 (2023‒2025)
+
+2.1 원격·디지털 CBT의 부상
+
+효과 크기: 2024년 체계적 문헌고찰(18개 RCT, N=1,982)에서 원격 CBT는 비‑CBT 대조군 대비 중등도 효과(g=0.45)로 불안을 감소시켰고, 6개월 추적 시에도 유의한 차이가 유지되었다. (pubmed.ncbi.nlm.nih.gov)
+
+임상적 함의: 원격 전달은 이동이 제한된 노년층에게 치료 접근성을 크게 높이며, 시·청각 보조도구(자막, 확대 글꼴) 활용 시 순응도가 향상된다.
+
+2.2 3세대 CBT 프로토콜 비교
+
+2025년 Bayesian 네트워크 메타분석(56건, N=4,388)에서는
+
+Dugas 불확실성 내성 모델 기반 CBT가 단기·장기 모두에서 GAD 증상 감소에 최우수였고,
+
+수용 기반 치료(ABT/ACT) 역시 전통 CBT 대비 동등 이상 효과를 보였다.치료자 주도의 세션이 자가‑주도형보다 효과 크기가 컸다. (pubmed.ncbi.nlm.nih.gov)
+
+2.3 노년층 특화 근거
+
+Cochrane 형식 리뷰(2024, 19건 RCT)에서 노년층 불안에 대한 CBT는 치료 직후 최소 관리군 대비 경‑중등도 개선을 보였으나, 3‑6개월 추적에서는 차이가 감소했다. 이는 유지 전략(부스터 세션, 행동 활성화 과제)이 필요함을 시사한다. (pubmed.ncbi.nlm.nih.gov)
+
+2.4 장기 추적 데이터
+
+10년 추적연구에 따르면 CBT 그룹은 활동적 대조군 대비 진단상 완전 관해율이 30 %p 이상 높고, 재발률은 절반 수준으로 낮았다(N=54, 70‑84세). (pubmed.ncbi.nlm.nih.gov)
+
+3. 이론적 토대와 핵심 ‘과정’(Process‑Based Approach)
+
+핵심 변인
+
+설명
+
+대표 기법
+
+심리적 융합(Cognitive Fusion)
+
+생각‑감정‑행동의 과잉 동일시
+
+탈융합·메타인지 훈련
+
+경험 회피(Experiential Avoidance)
+
+불편한 내적 경험을 회피하려는 경향
+
+수용·노출·행동 실험
+
+가치 명료화(Values Clarification)
+
+개인적 의미·목표 확인
+
+가치 탐색·행동 약속
+
+주의 조절(Attentional Flexibility)
+
+현재 경험에 머무르는 능력
+
+마음챙김·집중 훈련
+
+과정 기반 전략은 인지기능 저하·신체 질환 등 노년기 특성을 고려해 속도·과제 난이도를 조정한다.
+
+4. 노년층 임상 적용 가이드라인
+
+평가
+
+불안 척도(GAI, GAD‑7)와 인지선별(MoCA)을 병행하여 치료 적합성 확인.
+
+맞춤 사례 개념화
+
+신체 건강, 사회적 고립, 상실 경험을 포함.
+
+치료 모듈 (예시 10‑12회)
+
+관계 형성·치료 구조 제시
+
+교육: 불안‑노화 상호작용
+
+마음챙김·호흡훈련
+
+핵심 가치 도출·행동계획
+
+노출·행동실험(저강도→고강도)
+
+통합·재발방지 플랜(부스터)
+
+현실적 고려사항
+
+가청 범위 확보(중저음), 시각 자료 대비 고대비 색상 사용
+
+가족·간병인 참여를 통해 과제 수행률 향상
+
+5. 실무적 사례
+
+사례 A: 78세 여성, 만성 건강염려와 사회 회피
+
+개념화: ‘질병‑죽음’ 핵심 두려움 + 경험 회피 → 고립
+
+介入: (1) 가치 명료화: ‘손주와의 추억 만들기’ (2) 단계적 ‘외출 노출’ 과제, 웨어러블 산책 기록 공유 (3) 휴식 Response Prevention → 12주 후 GAI 18→8.
+
+유지: 격월 전화 부스터, 온라인 마음챙김 녹음 배포
+
+6. 한계와 미래 연구
+
+인지 저하·다중질환을 포함한 군 연구 부족
+
+80대 후반 이상·문화적 다양성 샘플의 미흡
+
+치료 과정 변수(융합·가치행동)가 장기 결과를 매개하는지 규명 필요
+
+디지털 CBT에서 AI‑기반 맞춤 피드백의 유효성 검증
+
+7. 추가 학습 리소스
+
+Process‑Based CBT Skills Training (Hayes & Hofmann, 2021)
+
+Tele‑CBT Toolkit for Older Adults (Harvard Chan School, 2024)
+
+ACT in Geriatric Settings – 무료 MOOC (University of Queensland)
+
+8. 참고문헌
+
+Ando M. 외. Remote CBT for Older Adults with Anxiety Symptoms: A Meta‑analysis. J Telemed Telecare. 2024. (pubmed.ncbi.nlm.nih.gov)
+
+Dai X. 외. (Third‑wave) CBT for GAD: Bayesian Network Meta‑analysis. J Psychiatr Res. 2025. (pubmed.ncbi.nlm.nih.gov)
+
+Papola D. 외. Psychotherapies for GAD: Network Meta‑analysis. JAMA Psychiatry. 2024. (pubmed.ncbi.nlm.nih.gov)
+
+Chowdhury R. 외. CBT vs Minimal Management for Anxiety in Older Adults. 2024 Systematic Review. (pubmed.ncbi.nlm.nih.gov)
+
+Wuthrich VM. 외. Long‑term Remission after CBT in Late‑Life Anxiety & Depression. J Affect Disord. 2024. (pubmed.ncbi.nlm.nih.gov)
+
+Hayes SC, Hofmann SG. “Third‑wave” CBT and Process‑Based Care. World Psychiatry. 2021. (pubmed.ncbi.nlm.nih.gov)
