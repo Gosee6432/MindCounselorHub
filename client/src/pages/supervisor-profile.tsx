@@ -31,6 +31,17 @@ export default function SupervisorProfile() {
     return femaleAvatarUrl;
   };
 
+  // Helper function to safely parse JSON strings
+  const parseJsonString = (jsonString: string | null): string[] => {
+    if (!jsonString) return [];
+    try {
+      const parsed = JSON.parse(jsonString);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
+  };
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-gray-50">
@@ -135,12 +146,15 @@ export default function SupervisorProfile() {
 
                 {/* Contact Info */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                  {supervisor.counselingRegions && supervisor.counselingRegions.length > 0 && (
-                    <div className="flex items-center text-gray-600">
-                      <MapPin className="h-4 w-4 mr-2" />
-                      <span>{supervisor.counselingRegions.join(', ')}</span>
-                    </div>
-                  )}
+                  {(() => {
+                    const regions = parseJsonString(supervisor.counselingRegions);
+                    return regions.length > 0 && (
+                      <div className="flex items-center text-gray-600">
+                        <MapPin className="h-4 w-4 mr-2" />
+                        <span>{regions.join(', ')}</span>
+                      </div>
+                    );
+                  })()}
                 </div>
 
                 {/* Summary */}
@@ -165,38 +179,47 @@ export default function SupervisorProfile() {
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              {supervisor.qualifications && supervisor.qualifications.length > 0 && (
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">자격증</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {supervisor.qualifications.map((qual, index) => (
-                      <Badge key={index} variant="secondary">{qual}</Badge>
-                    ))}
+              {(() => {
+                const qualifications = parseJsonString(supervisor.qualifications);
+                return qualifications.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">자격증</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {qualifications.map((qual, index) => (
+                        <Badge key={index} variant="secondary">{qual}</Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
               
-              {supervisor.targetGroups && supervisor.targetGroups.length > 0 && (
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">대상군</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {supervisor.targetGroups.map((group, index) => (
-                      <Badge key={index} variant="outline">{group}</Badge>
-                    ))}
+              {(() => {
+                const targetGroups = parseJsonString(supervisor.targetGroups);
+                return targetGroups.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">대상군</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {targetGroups.map((group, index) => (
+                        <Badge key={index} variant="outline">{group}</Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
 
-              {supervisor.concernTypes && supervisor.concernTypes.length > 0 && (
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">상담 영역</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {supervisor.concernTypes.map((type, index) => (
-                      <Badge key={index} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{type}</Badge>
-                    ))}
+              {(() => {
+                const concernTypes = parseJsonString(supervisor.concernTypes);
+                return concernTypes.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">상담 영역</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {concernTypes.map((type, index) => (
+                        <Badge key={index} variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">{type}</Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
             </CardContent>
           </Card>
 
@@ -253,16 +276,19 @@ export default function SupervisorProfile() {
                 );
               })()}
 
-              {supervisor.specialExperiences && supervisor.specialExperiences.length > 0 && (
-                <div>
-                  <h4 className="font-semibold text-gray-900 mb-3">특수 경험</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {supervisor.specialExperiences.map((exp, index) => (
-                      <Badge key={index} variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">{exp}</Badge>
-                    ))}
+              {(() => {
+                const specialExperiences = parseJsonString(supervisor.specialExperiences);
+                return specialExperiences.length > 0 && (
+                  <div>
+                    <h4 className="font-semibold text-gray-900 mb-3">특수 경험</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {specialExperiences.map((exp, index) => (
+                        <Badge key={index} variant="outline" className="bg-orange-50 text-orange-700 border-orange-200">{exp}</Badge>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                );
+              })()}
             </CardContent>
           </Card>
         </div>
@@ -439,7 +465,9 @@ export default function SupervisorProfile() {
                         className="flex-1 border-yellow-300 text-yellow-700 hover:bg-yellow-100"
                         onClick={() => {
                           // KakaoTalk deep link for client experience inquiry
-                          window.open(`https://open.kakao.com/o/${supervisor.kakaoId}`, '_blank');
+                          if (supervisor.kakaoId) {
+                            window.open(`https://open.kakao.com/o/${supervisor.kakaoId}`, '_blank');
+                          }
                         }}
                       >
                         내담경험 상담
