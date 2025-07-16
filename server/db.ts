@@ -18,7 +18,51 @@ sqlite.exec(`
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     role TEXT DEFAULT 'trainee',
-    password_hash TEXT
+    password_hash TEXT,
+    is_active INTEGER DEFAULT 1,
+    is_approved INTEGER DEFAULT 1,
+    phone TEXT,
+    gender TEXT,
+    birth_year INTEGER,
+    education TEXT,
+    university TEXT,
+    current_status TEXT,
+    target_certification TEXT,
+    counseling_experience TEXT,
+    interests TEXT,
+    license TEXT,
+    license_number TEXT,
+    association TEXT,
+    experience INTEGER,
+    specialization TEXT,
+    therapeutic_approach TEXT,
+    target_groups TEXT,
+    counseling_methods TEXT,
+    available_hours TEXT,
+    hourly_rate TEXT,
+    national_program TEXT,
+    additional_fee TEXT,
+    location TEXT,
+    online_available TEXT,
+    introduction TEXT,
+    career_background TEXT,
+    graduation_year INTEGER,
+    current_work_location TEXT,
+    work_experience TEXT,
+    target_supervisor TEXT,
+    learning_goals TEXT,
+    challenges_and_concerns TEXT,
+    supervision_format TEXT,
+    total_supervision_hours INTEGER,
+    group_supervision_hours INTEGER,
+    individual_supervision_hours INTEGER,
+    weekly_supervision_hours INTEGER,
+    supervision_fee_per_hour INTEGER,
+    national_program_participation INTEGER DEFAULT 0,
+    national_program_additional_fee INTEGER DEFAULT 0,
+    can_provide_client_experience INTEGER DEFAULT 0,
+    client_experience_additional_fee INTEGER DEFAULT 0,
+    accepts_new_trainees INTEGER DEFAULT 1
   );
 
   CREATE TABLE IF NOT EXISTS supervisors (
@@ -205,9 +249,9 @@ try {
   sqlite.exec(`UPDATE community_posts SET anonymous_nickname = '익명사용자' WHERE anonymous_nickname IS NULL;`);
 
   sqlite.exec(`
-    INSERT OR IGNORE INTO users (id, email, role, password_hash) VALUES 
-    ('admin-001', 'admin@test.com', 'admin', '$2b$10$4xKzTg4xrK8YdF9Rnz9kBOKhA5jqZvOr/kYIWfVklZC6BQe2.Dq2e'),
-    ('LM-OTpcLGNrUlmhS75gOQ', 'goseecloud@gmail.com', 'supervisor', '$2b$10$4xKzTg4xrK8YdF9Rnz9kBOKhA5jqZvOr/kYIWfVklZC6BQe2.Dq2e');
+    INSERT OR IGNORE INTO users (id, email, role, password_hash, first_name, last_name, is_active, is_approved) VALUES 
+    ('admin-001', 'admin@test.com', 'admin', '$2b$12$bxVjvVw66BFB7BfiLymoV.zuIS2V/vqsj/njA0ObChfyHLNY2Smaa', '관리자', '계정', 1, 1),
+    ('LM-OTpcLGNrUlmhS75gOQ', 'goseecloud@gmail.com', 'supervisor', '$2b$12$bxVjvVw66BFB7BfiLymoV.zuIS2V/vqsj/njA0ObChfyHLNY2Smaa', '김', '상담', 1, 1);
 
     INSERT OR IGNORE INTO supervisors (
       id, user_id, name, specialization, approval_status, is_visible, 
