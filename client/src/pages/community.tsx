@@ -11,10 +11,12 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { MessageSquare, ThumbsUp, Eye, PenTool, User, Calendar, Pin, Heart, Search, Filter, Flag } from "lucide-react";
 import { apiRequest, queryClient } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
 import Header from "@/components/header";
 import type { CommunityPost } from "@shared/schema";
 
 export default function Community() {
+  const { isAuthenticated } = useAuth();
   const [selectedTab, setSelectedTab] = useState("all");
   const [showWriteDialog, setShowWriteDialog] = useState(false);
   const [selectedPost, setSelectedPost] = useState<CommunityPost | null>(null);
@@ -623,7 +625,22 @@ export default function Community() {
             </div>
             
             <Button 
-              onClick={() => setShowWriteDialog(true)}
+              onClick={() => {
+                if (!isAuthenticated) {
+                  toast({
+                    title: "로그인이 필요합니다",
+                    description: "게시글 작성을 위해 회원가입 후 로그인해주세요.",
+                    variant: "destructive",
+                    action: (
+                      <Button size="sm" onClick={() => window.location.href = "/register"}>
+                        회원가입
+                      </Button>
+                    )
+                  });
+                  return;
+                }
+                setShowWriteDialog(true);
+              }}
               className="bg-blue-600 hover:bg-blue-700"
             >
               <PenTool className="h-4 w-4 mr-2" />

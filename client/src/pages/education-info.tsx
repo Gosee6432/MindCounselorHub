@@ -283,15 +283,28 @@ export default function EducationInfo() {
               </Select>
             </div>
 
-            {isAuthenticated && (
-              <Button 
-                onClick={() => setShowCreateDialog(true)}
-                className="bg-indigo-600 hover:bg-indigo-700"
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                교육과정 등록
-              </Button>
-            )}
+            <Button 
+              onClick={() => {
+                if (!isAuthenticated) {
+                  toast({
+                    title: "로그인이 필요합니다",
+                    description: "교육과정 등록을 위해 회원가입 후 로그인해주세요.",
+                    variant: "destructive",
+                    action: (
+                      <Button size="sm" onClick={() => window.location.href = "/register"}>
+                        회원가입
+                      </Button>
+                    )
+                  });
+                  return;
+                }
+                setShowCreateDialog(true);
+              }}
+              className="bg-indigo-600 hover:bg-indigo-700"
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              교육과정 등록
+            </Button>
           </div>
         </div>
 
