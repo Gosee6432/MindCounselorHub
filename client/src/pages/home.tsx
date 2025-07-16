@@ -5,10 +5,10 @@ import SearchFilters from "@/components/search-filters-new";
 import SupervisorCard from "@/components/supervisor-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, ClipboardList, MessageSquare, Shield } from "lucide-react";
+import { Users, ClipboardList, MessageSquare, Shield, Heart, MessageCircle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation } from "wouter";
-import type { Supervisor } from "@shared/schema";
+import type { Supervisor, CommunityPost } from "@shared/schema";
 
 export default function Home() {
   const [filters, setFilters] = useState({});
@@ -34,6 +34,33 @@ export default function Home() {
       return response.json();
     },
   });
+
+  const { data: communityPosts = [] } = useQuery<CommunityPost[]>({
+    queryKey: ["/api/community/posts"],
+    queryFn: async () => {
+      const response = await fetch('/api/community/posts');
+      if (!response.ok) throw new Error('Failed to fetch community posts');
+      return response.json();
+    },
+  });
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
+    const diffDays = Math.floor(diffHours / 24);
+
+    if (diffHours < 1) {
+      return `${Math.floor(diffMs / (1000 * 60))}분 전`;
+    } else if (diffHours < 24) {
+      return `${diffHours}시간 전`;
+    } else if (diffDays < 7) {
+      return `${diffDays}일 전`;
+    } else {
+      return `${date.getMonth() + 1}.${date.getDate()}. ${date.getHours().toString().padStart(2, '0')}:${date.getMinutes().toString().padStart(2, '0')}`;
+    }
+  };
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -131,57 +158,48 @@ export default function Home() {
                 </div>
                 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-5 mb-8">
-                  <div 
-                    className="p-5 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
-                    onClick={() => window.location.href = '/community'}
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <h5 className="font-medium text-gray-900 text-lg">첫 슈퍼비전 후기</h5>
-                      <span className="text-sm text-gray-500">익명사용자1</span>
-                    </div>
-                    <p className="text-gray-600 mb-4">처음 수퍼비전을 받았는데 생각보다 많은 도움이 되었습니다. 특히 내담자와의 관계 설정에 대한 조언이...</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <span>❤️ 12</span>
-                        <span>💬 5</span>
+                  {communityPosts.slice(0, 3).map((post, index) => (
+                    <div 
+                      key={post.id}
+                      className="p-5 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
+                      onClick={() => window.location.href = '/community'}
+                    >
+                      <div className="flex items-center justify-between mb-3">
+                        <h5 className="font-medium text-gray-900 text-lg line-clamp-1">
+                          {post.title}
+                        </h5>
+                        <span className="text-sm text-gray-500">
+                          {post.isAnonymous ? post.anonymousNickname : post.nickname}
+                        </span>
                       </div>
-                      <span className="text-sm text-gray-500">2시간 전</span>
-                    </div>
-                  </div>
-                  <div 
-                    className="p-5 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
-                    onClick={() => window.location.href = '/community'}
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <h5 className="font-medium text-gray-900 text-lg">추가요금 문의드려요</h5>
-                      <span className="text-sm text-gray-500">익명사용자2</span>
-                    </div>
-                    <p className="text-gray-600 mb-4">수퍼바이저 선택 시 주의할 점이 있을까요? 전마투 관련해서 추가비용이 있는 분들도 계시더라구요...</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <span>❤️ 8</span>
-                        <span>💬 3</span>
+                      <p className="text-gray-600 mb-4 line-clamp-2">
+                        {post.content}
+                      </p>
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center space-x-4 text-sm text-gray-500">
+                          <span className="flex items-center">
+                            <Heart className="h-4 w-4 mr-1" />
+                            {post.likeCount || 0}
+                          </span>
+                          <span className="flex items-center">
+                            <MessageCircle className="h-4 w-4 mr-1" />
+                            {post.commentCount || 0}
+                          </span>
+                        </div>
+                        <span className="text-sm text-gray-500">
+                          {formatDate(post.createdAt)}
+                        </span>
                       </div>
-                      <span className="text-sm text-gray-500">5시간 전</span>
                     </div>
-                  </div>
-                  <div 
-                    className="p-5 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
-                    onClick={() => window.location.href = '/community'}
-                  >
-                    <div className="flex items-center justify-between mb-3">
-                      <h5 className="font-medium text-gray-900 text-lg">상담 기록 작성 팁</h5>
-                      <span className="text-sm text-gray-500">익명사용자3</span>
+                  ))}
+                  
+                  {communityPosts.length === 0 && (
+                    <div className="col-span-full text-center py-8">
+                      <MessageSquare className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                      <p className="text-gray-500">아직 게시글이 없습니다.</p>
                     </div>
-                    <p className="text-gray-600 mb-4">효과적인 상담 기록 작성 방법에 대해 궁금합니다. 수퍼바이저님께 도움이 되는 방향으로...</p>
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center space-x-4 text-sm text-gray-500">
-                        <span>❤️ 15</span>
-                        <span>💬 7</span>
-                      </div>
-                      <span className="text-sm text-gray-500">1일 전</span>
-                    </div>
-                  </div>
+                  )}
+
                 </div>
                 
                 <Button 

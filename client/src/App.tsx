@@ -24,6 +24,7 @@ import AdminMcp from "@/pages/admin-mcp";
 import Login from "@/pages/login";
 import ForgotPassword from "@/pages/forgot-password";
 import ResetPassword from "@/pages/reset-password";
+import BecomeCounselor from "@/pages/become-counselor";
 
 function Router() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -34,7 +35,7 @@ function Router() {
       <Route path="/landing" component={Landing} />
       <Route path="/register" component={Register} />
       <Route path="/supervisor/:id" component={SupervisorProfile} />
-      <Route path="/national-program" component={NationalProgram} />
+      <Route path="/become-counselor" component={BecomeCounselor} />
       <Route path="/psychology-info" component={PsychologyInfo} />
       <Route path="/psychology-info/article/:id" component={PsychologyArticle} />
       <Route path="/education-info" component={EducationInfo} />

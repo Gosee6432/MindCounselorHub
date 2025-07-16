@@ -15,7 +15,7 @@ export default function Header() {
 
   const navigation = [
     { name: "수퍼바이저 찾기", href: "/", icon: Users },
-    { name: "전국민마음투자지원사업", href: "/national-program", icon: MessageSquare },
+    { name: "상담자가 되는 법", href: "/become-counselor", icon: MessageSquare },
     { name: "커뮤니티", href: "/community", icon: MessageSquare },
     { name: "최신심리학정보", href: "/psychology-info", icon: MessageSquare },
     { name: "교육정보", href: "/education-info", icon: MessageSquare },
