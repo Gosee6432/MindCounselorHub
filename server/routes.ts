@@ -71,7 +71,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const user = await storage.createUser({
         id: nanoid(),
         email,
-        password: hashedPassword,
+        password_hash: hashedPassword,
         firstName,
         lastName,
         role: role || 'trainee',
@@ -168,15 +168,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "이메일 또는 비밀번호가 잘못되었습니다." });
       }
 
-      console.log('User found:', { email: user.email, hasPasswordHash: !!user.passwordHash });
+      console.log('User found:', { email: user.email, hasPasswordHash: !!user.password_hash });
 
       // Verify password
-      if (!user.passwordHash) {
+      if (!user.password_hash) {
         console.error('No password hash found for user:', user.email);
         return res.status(400).json({ message: "이메일 또는 비밀번호가 잘못되었습니다." });
       }
 
-      const isValid = await verifyPassword(password, user.passwordHash);
+      const isValid = await verifyPassword(password, user.password_hash);
       if (!isValid) {
         return res.status(400).json({ message: "이메일 또는 비밀번호가 잘못되었습니다." });
       }
