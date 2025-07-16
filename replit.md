@@ -102,6 +102,10 @@ This is a web application designed to connect psychology trainees with superviso
 - CORS and security headers configured
 
 ## Changelog
+- January 16, 2025. 상단 메뉴 변경: "전국민마음투자지원사업" → "상담자가 되는 법"
+- January 16, 2025. 상담자 되는 법 페이지 추가 (공식 가이드 + 대학 리스트)
+- January 16, 2025. 메인페이지 익명게시판을 실제 커뮤니티 데이터와 통합
+- January 16, 2025. 교육과정 등록 버튼을 로그인 사용자만 접근 가능하도록 제한
 - June 30, 2025. Initial setup
 
 ## User Preferences

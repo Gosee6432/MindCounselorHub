@@ -283,13 +283,15 @@ export default function EducationInfo() {
               </Select>
             </div>
 
-            <Button 
-              onClick={() => setShowCreateDialog(true)}
-              className="bg-indigo-600 hover:bg-indigo-700"
-            >
-              <Plus className="h-4 w-4 mr-2" />
-              교육과정 등록
-            </Button>
+            {isAuthenticated && (
+              <Button 
+                onClick={() => setShowCreateDialog(true)}
+                className="bg-indigo-600 hover:bg-indigo-700"
+              >
+                <Plus className="h-4 w-4 mr-2" />
+                교육과정 등록
+              </Button>
+            )}
           </div>
         </div>
 
