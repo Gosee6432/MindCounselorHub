@@ -105,10 +105,11 @@ sqlite.exec(`
   CREATE TABLE IF NOT EXISTS counseling_records (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     user_id TEXT NOT NULL,
-    session_date DATE NOT NULL,
-    duration INTEGER NOT NULL,
-    topic TEXT,
-    notes TEXT,
+    title TEXT NOT NULL,
+    content TEXT NOT NULL,
+    supervisor_name TEXT,
+    counseling_date DATETIME,
+    tags TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     updated_at DATETIME DEFAULT CURRENT_TIMESTAMP
   );

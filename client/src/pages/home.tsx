@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Users, ClipboardList, MessageSquare, Shield, Heart, MessageCircle } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation } from "wouter";
-import type { Supervisor, CommunityPost } from "@shared/schema";
+import type { Supervisor, CommunityPost, CounselingRecord } from "@shared/schema";
 
 export default function Home() {
   const [filters, setFilters] = useState({});
@@ -40,6 +40,16 @@ export default function Home() {
     queryFn: async () => {
       const response = await fetch('/api/community/posts');
       if (!response.ok) throw new Error('Failed to fetch community posts');
+      return response.json();
+    },
+  });
+
+  const { data: counselingRecords = [] } = useQuery<CounselingRecord[]>({
+    queryKey: ["/api/counseling-records"],
+    enabled: isAuthenticated,
+    queryFn: async () => {
+      const response = await fetch('/api/counseling-records');
+      if (!response.ok) throw new Error('Failed to fetch counseling records');
       return response.json();
     },
   });
@@ -229,23 +239,28 @@ export default function Home() {
                   </div>
                   
                   <div className="space-y-4 mb-6">
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <h5 className="font-medium text-gray-900">상담 기록 #12</h5>
-                        <p className="text-sm text-gray-600">2024.01.15 - 김명수 상담사</p>
+                    {counselingRecords.length === 0 ? (
+                      <div className="text-center py-8">
+                        <ClipboardList className="h-16 w-16 text-gray-300 mx-auto mb-4" />
+                        <p className="text-gray-500">아직 상담 기록이 없습니다.</p>
                       </div>
-                      <Shield className="h-4 w-4 text-gray-400" />
-                    </div>
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <div>
-                        <h5 className="font-medium text-gray-900">상담 기록 #11</h5>
-                        <p className="text-sm text-gray-600">2024.01.08 - 박진호 상담사</p>
-                      </div>
-                      <Shield className="h-4 w-4 text-gray-400" />
-                    </div>
+                    ) : (
+                      counselingRecords.slice(0, 2).map((record) => (
+                        <div key={record.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                          <div>
+                            <h5 className="font-medium text-gray-900">{record.title}</h5>
+                            <p className="text-sm text-gray-600">
+                              {formatDate(record.createdAt)}
+                              {record.supervisorName && ` - ${record.supervisorName}`}
+                            </p>
+                          </div>
+                          <Shield className="h-4 w-4 text-gray-400" />
+                        </div>
+                      ))
+                    )}
                   </div>
                   
-                  <Button className="w-full">
+                  <Button className="w-full" onClick={() => setLocation('/my-page')}>
                     새 기록 작성하기
                   </Button>
                 </CardContent>
