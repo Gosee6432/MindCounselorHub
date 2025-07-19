@@ -23,6 +23,7 @@ import Header from "@/components/header";
 import SupervisorForm from "@/components/supervisor-form";
 import { CATEGORIES } from "@/lib/constants";
 import type { CounselingRecord, Supervisor } from "@shared/schema";
+import { insertCounselingRecordSchema } from "@shared/schema";
 
 // Supervisor Components
 function SupervisorCardManagement({ supervisor, onSuccess }: { supervisor: Supervisor; onSuccess: () => void }) {
@@ -624,8 +625,19 @@ export default function MyPage() {
 
 
 
+  // Create a custom schema for the form that matches the expected frontend input format
+  const recordFormSchema = insertCounselingRecordSchema.omit({ 
+    id: true, 
+    userId: true, 
+    createdAt: true, 
+    updatedAt: true 
+  }).extend({
+    counselingDate: z.string().optional(), // Accept string for date input
+    tags: z.array(z.string()).optional(),
+  });
+
   const recordForm = useForm({
-    resolver: zodResolver(recordSchema),
+    resolver: zodResolver(recordFormSchema),
     defaultValues: {
       title: "",
       content: "",

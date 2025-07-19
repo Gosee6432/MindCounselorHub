@@ -389,7 +389,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const userId = req.user!.id;
       const records = await storage.getCounselingRecords(userId);
-      res.json(records);
+      
+      // Parse tags for all records
+      const processedRecords = records.map(record => ({
+        ...record,
+        tags: record.tags ? JSON.parse(record.tags) : null,
+      }));
+      
+      res.json(processedRecords);
     } catch (error) {
       console.error("Error fetching counseling records:", error);
       res.status(500).json({ message: "Failed to fetch counseling records" });
@@ -399,15 +406,29 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.post('/api/counseling-records', requireAuth, async (req: AuthRequest, res) => {
     try {
       const userId = req.user!.id;
-      const recordData = insertCounselingRecordSchema.parse({
+      
+      // Process the data before validation
+      const processedData = {
         ...req.body,
         userId,
-      });
-
+        tags: req.body.tags ? JSON.stringify(req.body.tags) : null,
+        counselingDate: req.body.counselingDate ? new Date(req.body.counselingDate) : null,
+      };
+      
+      const recordData = insertCounselingRecordSchema.parse(processedData);
       const record = await storage.createCounselingRecord(recordData);
-      res.json(record);
+      
+      // Parse tags back for response
+      const responseRecord = {
+        ...record,
+        tags: record.tags ? JSON.parse(record.tags) : null,
+      };
+      
+      res.json(responseRecord);
     } catch (error) {
       if (error instanceof z.ZodError) {
+        console.error("Validation error:", error.errors);
+        console.error("Processed data:", processedData);
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
       }
       console.error("Error creating counseling record:", error);
@@ -425,9 +446,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(404).json({ message: "Record not found" });
       }
 
-      const recordData = insertCounselingRecordSchema.partial().parse(req.body);
+      // Process the data before validation
+      const processedData = {
+        ...req.body,
+        tags: req.body.tags ? JSON.stringify(req.body.tags) : undefined,
+        counselingDate: req.body.counselingDate ? new Date(req.body.counselingDate) : undefined,
+      };
+
+      const recordData = insertCounselingRecordSchema.partial().parse(processedData);
       const updatedRecord = await storage.updateCounselingRecord(id, recordData);
-      res.json(updatedRecord);
+      
+      // Parse tags back for response
+      const responseRecord = {
+        ...updatedRecord,
+        tags: updatedRecord.tags ? JSON.parse(updatedRecord.tags) : null,
+      };
+      
+      res.json(responseRecord);
     } catch (error) {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Invalid data", errors: error.errors });
