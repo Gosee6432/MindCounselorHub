@@ -5,7 +5,8 @@ import SearchFilters from "@/components/search-filters-new";
 import SupervisorCard from "@/components/supervisor-card";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Users, ClipboardList, MessageSquare, Shield, Heart, MessageCircle } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Users, ClipboardList, MessageSquare, Shield, Heart, MessageCircle, User, Calendar } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useLocation } from "wouter";
 import type { Supervisor, CommunityPost, CounselingRecord } from "@shared/schema";
@@ -14,6 +15,7 @@ export default function Home() {
   const [filters, setFilters] = useState({});
   const { isAuthenticated } = useAuth();
   const [, setLocation] = useLocation();
+  const [selectedRecord, setSelectedRecord] = useState<CounselingRecord | null>(null);
 
   const { data: supervisors = [], isLoading } = useQuery<Supervisor[]>({
     queryKey: ["/api/supervisors", filters],
@@ -246,7 +248,11 @@ export default function Home() {
                       </div>
                     ) : (
                       counselingRecords.slice(0, 2).map((record) => (
-                        <div key={record.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                        <div 
+                          key={record.id} 
+                          className="flex items-center justify-between p-4 bg-gray-50 rounded-lg cursor-pointer hover:bg-gray-100 transition-colors"
+                          onClick={() => setSelectedRecord(record)}
+                        >
                           <div>
                             <h5 className="font-medium text-gray-900">{record.title}</h5>
                             <p className="text-sm text-gray-600">
@@ -315,6 +321,80 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      {/* Counseling Record Detail Dialog */}
+      <Dialog open={!!selectedRecord} onOpenChange={() => setSelectedRecord(null)}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="flex items-center gap-2">
+              <ClipboardList className="h-5 w-5" />
+              상담 기록 상세
+            </DialogTitle>
+          </DialogHeader>
+          
+          {selectedRecord && (
+            <div className="space-y-6">
+              <div>
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  {selectedRecord.title}
+                </h3>
+                <div className="flex items-center space-x-4 text-sm text-gray-500 mb-4">
+                  {selectedRecord.supervisorName && (
+                    <div className="flex items-center">
+                      <User className="h-4 w-4 mr-1" />
+                      {selectedRecord.supervisorName}
+                    </div>
+                  )}
+                  {selectedRecord.counselingDate && (
+                    <div className="flex items-center">
+                      <Calendar className="h-4 w-4 mr-1" />
+                      {new Date(selectedRecord.counselingDate).toLocaleDateString('ko-KR')}
+                    </div>
+                  )}
+                  <div className="flex items-center">
+                    <Shield className="h-4 w-4 mr-1" />
+                    비공개
+                  </div>
+                </div>
+              </div>
+              
+              <div>
+                <h4 className="font-medium text-gray-900 mb-2">상담 내용</h4>
+                <div className="bg-gray-50 rounded-lg p-4">
+                  <p className="text-gray-700 whitespace-pre-wrap leading-relaxed">
+                    {selectedRecord.content}
+                  </p>
+                </div>
+              </div>
+              
+              {selectedRecord.tags && selectedRecord.tags.length > 0 && (
+                <div>
+                  <h4 className="font-medium text-gray-900 mb-2">태그</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {selectedRecord.tags.map((tag) => (
+                      <span 
+                        key={tag}
+                        className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              )}
+              
+              <div className="text-xs text-gray-400 pt-4 border-t">
+                <p>작성일: {new Date(selectedRecord.createdAt).toLocaleString('ko-KR')}</p>
+                {selectedRecord.updatedAt !== selectedRecord.createdAt && (
+                  <p className="mt-1">
+                    수정일: {new Date(selectedRecord.updatedAt).toLocaleString('ko-KR')}
+                  </p>
+                )}
+              </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
